@@ -1,0 +1,40 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:15-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${DB_USER:-posuser}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-pospassword}
+      POSTGRES_DB: ${DB_NAME:-soroban_pos}
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  server:
+    build: ./server
+    restart: unless-stopped
+    depends_on:
+      - db
+    env_file: ./server/.env
+    ports:
+      - "4000:4000"
+    volumes:
+      - ./server:/app
+      - /app/node_modules
+
+  client:
+    build: ./client
+    restart: unless-stopped
+    depends_on:
+      - server
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./client:/app
+      - /app/node_modules
+
+volumes:
+  pgdata:
