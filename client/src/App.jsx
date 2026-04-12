@@ -9,6 +9,8 @@ import InventoryPage from "./pages/InventoryPage";
 import CustomersPage from "./pages/CustomersPage";
 import SalesPage from "./pages/SalesPage";
 import ReportsPage from "./pages/ReportsPage";
+import UsersPage from "./pages/UsersPage";
+import SettingsPage from "./pages/SettingsPage";
 
 function PrivateRoute({ children }) {
   const token = useAuthStore((s) => s.token);
@@ -28,13 +30,15 @@ export default function App() {
         }
       >
         <Route index element={<Navigate to="/dashboard" replace />} />
-        <Route path="dashboard" element={<DashboardPage />} />
-        <Route path="pos" element={<POSPage />} />
-        <Route path="products" element={<ProductsPage />} />
-        <Route path="inventory" element={<InventoryPage />} />
-        <Route path="customers" element={<CustomersPage />} />
-        <Route path="sales" element={<SalesPage />} />
-        <Route path="reports" element={<ReportsPage />} />
+        <Route path="dashboard"  element={<DashboardPage />} />
+        <Route path="pos"        element={<POSPage />} />
+        <Route path="products"   element={<ProductsPage />} />
+        <Route path="inventory"  element={<InventoryPage />} />
+        <Route path="customers"  element={<CustomersPage />} />
+        <Route path="sales"      element={<SalesPage />} />
+        <Route path="reports"    element={<ReportsPage />} />
+        <Route path="users"      element={<UsersPage />} />
+        <Route path="settings"   element={<SettingsPage />} />
       </Route>
     </Routes>
   );

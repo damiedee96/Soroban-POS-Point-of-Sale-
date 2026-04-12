@@ -1,4 +1,5 @@
 const prisma = require("../lib/prisma");
+const { generateHtmlReceipt } = require("../services/receipt.service");
 
 async function list(req, res, next) {
   try {
@@ -94,4 +95,17 @@ async function refund(req, res, next) {
   } catch (err) { next(err); }
 }
 
-module.exports = { list, get, create, refund };
+async function receipt(req, res, next) {
+  try {
+    const sale = await prisma.sale.findUnique({
+      where: { id: req.params.id },
+      include: { items: { include: { product: true } }, user: true, customer: true },
+    });
+    if (!sale) return res.status(404).json({ message: "Sale not found" });
+    const html = generateHtmlReceipt(sale);
+    res.setHeader("Content-Type", "text/html");
+    res.send(html);
+  } catch (err) { next(err); }
+}
+
+module.exports = { list, get, create, refund, receipt };

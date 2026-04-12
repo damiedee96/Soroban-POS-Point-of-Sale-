@@ -43,4 +43,14 @@ async function me(req, res, next) {
   } catch (err) { next(err); }
 }
 
-module.exports = { register, login, me };
+async function listUsers(req, res, next) {
+  try {
+    const users = await prisma.user.findMany({
+      select: { id: true, name: true, email: true, role: true, branchId: true, branch: { select: { name: true } } },
+      orderBy: { name: "asc" },
+    });
+    res.json(users);
+  } catch (err) { next(err); }
+}
+
+module.exports = { register, login, me, listUsers };

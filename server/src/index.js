@@ -12,6 +12,7 @@ const customerRoutes = require("./routes/customer.routes");
 const reportRoutes = require("./routes/report.routes");
 const paymentRoutes = require("./routes/payment.routes");
 const branchRoutes = require("./routes/branch.routes");
+const categoryRoutes = require("./routes/category.routes");
 
 const app = express();
 
@@ -29,6 +30,7 @@ app.use("/api/customers", customerRoutes);
 app.use("/api/reports", reportRoutes);
 app.use("/api/payments", paymentRoutes);
 app.use("/api/branches", branchRoutes);
+app.use("/api/categories", categoryRoutes);
 
 app.get("/api/health", (req, res) => res.json({ status: "ok" }));
 
